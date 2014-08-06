@@ -1,0 +1,31 @@
+en:
+  spree:
+    mad_mimi:
+      admin:
+        controller:
+          sessions:
+            create:
+              flash:
+                success: You Spree store was successfully connected to MadMimi!
+                error: "Oops! There was a problem connecting your Spree store to MadMimi: %{message}."
+            failure:
+              flash:
+                error: "Oops! There was a problem connecting your Spree store to MadMimi: %{message}."
+            destroy:
+              flash:
+                success: You Spree store was successfully disconnected from MadMimi!
+                error: "Oops! There was a problem disconnecting your Spree store from MadMimi: %{message}."
+        view:
+          mad_mimi:
+            edit:
+              title: Mad Mimi
+              connected:
+                title: Your Spree store is connected!
+                description_html: Your Spree store is already connected with your Mad Mimi account.<br />See how it works <a href="http://madmimi.com" target="_blank">here</a>.
+              not_connected:
+                title: Integrate Mad Mimi with your Spree Store!
+                description_html: Mad Mimi's Spree integration allows you to easily import your product listings and buyer email addresses for a super efficient email integration.<br /><a href="" class="connect_account">Authorize your Mad Mimi account</a> now. If you don't have one, <a href="" class="create_account">create one</a>.
+              actions:
+                connect_account: Connect account
+                create_account: Create new account
+                disconnect_account: Disconnect account

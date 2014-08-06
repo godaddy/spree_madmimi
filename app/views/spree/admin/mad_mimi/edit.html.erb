@@ -1,0 +1,46 @@
+<%= render :partial => 'spree/admin/shared/configuration_menu' %>
+
+<% content_for :title do %>
+  <%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.title') %>
+<% end %>
+
+<% content_for :page_title do %>
+  <%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.title') %>
+<% end %>
+
+<%= form_tag admin_mad_mimi_path, :method => :put do %>
+  <div id="preferences">
+    <fieldset class="general no-border-top">
+
+      <% if MadMimi.connected? %>
+        <div class="alpha no-objects-found">
+          <h2><%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.connected.title') %></h2>
+          <br/>
+          <%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.connected.description_html') %>
+        </div>
+      <% else %>
+        <div class="alpha no-objects-found">
+          <h2><%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.not_connected.title') %></h2>
+          <br/>
+          <%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.not_connected.description_html') %>
+        </div>
+      <% end %>
+
+      <div class="form-buttons filter-actions actions" data-hook="buttons">
+        <% if !MadMimi.connected? %>
+          <%= button Spree.t('mad_mimi.admin.view.mad_mimi.edit.actions.connect_account'), nil, nil, id: 'connect_account' %>
+          <span class="or"><%= Spree.t(:or) %></span>
+          <%= button Spree.t('mad_mimi.admin.view.mad_mimi.edit.actions.create_account'), nil, nil, id: 'create_account' %>
+        <% else %>
+          <%= button Spree.t('mad_mimi.admin.view.mad_mimi.edit.actions.disconnect_account'), nil, nil, id: 'disconnect_account' %>
+        <% end %>
+      </div>
+    </fieldset>
+  </div>
+<% end %>
+
+<% content_for :scripts do %>
+  <script>
+    new Mimi.Integration($('#preferences'));
+  </script>
+<% end %>

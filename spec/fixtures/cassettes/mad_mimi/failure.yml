@@ -1,0 +1,89 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3000/oauth/token/info
+    body:
+      encoding: US-ASCII
+      string: access_token=
+    headers: {}
+  response:
+    status:
+      code: 401
+      message: ! 'Unauthorized '
+    headers:
+      Cache-Control:
+      - no-store
+      Pragma:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Www-Authenticate:
+      - Bearer realm="Doorkeeper", error="invalid_request", error_description="The
+        request is missing a required parameter, includes an unsupported parameter
+        value, or is otherwise malformed."
+      X-Ua-Compatible:
+      - IE=Edge
+      X-Request-Id:
+      - 1f6469a8ee7a3ee7f0ee6f215be834a9
+      X-Runtime:
+      - '0.497756'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.1.1/2014-02-24)
+      Date:
+      - Wed, 06 Aug 2014 07:05:02 GMT
+      Content-Length:
+      - '162'
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: US-ASCII
+      string: ! '{"error":"invalid_request","error_description":"The request is missing
+        a required parameter, includes an unsupported parameter value, or is otherwise
+        malformed."}'
+    http_version: 
+  recorded_at: Wed, 06 Aug 2014 07:05:02 GMT
+- request:
+    method: post
+    uri: http://localhost:3000/oauth/token
+    body:
+      encoding: US-ASCII
+      string: client_id=7a26d663816336ad187521bc216654ea9a3471047817d053c75cc82482e0da1c&client_secret=f54bea065741fb0f99c0a9909f3c3b70ce965618f39daadfb0f33b664de6f1fe&refresh_token=&grant_type=refresh_token
+    headers: {}
+  response:
+    status:
+      code: 401
+      message: ! 'Unauthorized '
+    headers:
+      Cache-Control:
+      - no-store
+      Pragma:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Www-Authenticate:
+      - Bearer realm="Doorkeeper", error="invalid_request", error_description="The
+        request is missing a required parameter, includes an unsupported parameter
+        value, or is otherwise malformed."
+      X-Ua-Compatible:
+      - IE=Edge
+      X-Request-Id:
+      - dc5dc94bf233db4c17439532b36f31e6
+      X-Runtime:
+      - '1.537799'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.1.1/2014-02-24)
+      Date:
+      - Wed, 06 Aug 2014 08:17:49 GMT
+      Content-Length:
+      - '162'
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: US-ASCII
+      string: ! '{"error":"invalid_request","error_description":"The request is missing
+        a required parameter, includes an unsupported parameter value, or is otherwise
+        malformed."}'
+    http_version: 
+  recorded_at: Wed, 06 Aug 2014 08:17:49 GMT
+recorded_with: VCR 2.5.0
