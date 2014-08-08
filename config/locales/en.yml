@@ -21,10 +21,10 @@ en:
               title: Mad Mimi
               connected:
                 title: Your Spree store is connected!
-                description_html: Your Spree store is already connected with your Mad Mimi account.<br />See how it works <a href="http://madmimi.com" target="_blank">here</a>.
+                description_html: Your Spree store is already connected with your Mad Mimi account.<br /><br />See how it works <a href="http://madmimi.com" target="_blank">here</a>.
               not_connected:
                 title: Integrate Mad Mimi with your Spree Store!
-                description_html: Mad Mimi's Spree integration allows you to easily import your product listings and buyer email addresses for a super efficient email integration.<br /><a href="" class="connect_account">Authorize your Mad Mimi account</a> now. If you don't have one, <a href="" class="create_account">create one</a>.
+                description_html: Mad Mimi's Spree integration allows you to easily import your product listings and buyer email addresses for a super efficient email integration.<br /><br /><a href="" class="connect_account">Authorize your Mad Mimi account</a> now. If you don't have one, <a href="" class="create_account">create one</a>.
               actions:
                 connect_account: Connect account
                 create_account: Create new account
