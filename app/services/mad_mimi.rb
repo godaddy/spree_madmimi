@@ -1,7 +1,7 @@
 class MadMimi
   include HTTParty
 
-  ATTRIBUTES = %w( access_token refresh_token )
+  ATTRIBUTES = %w( access_token refresh_token webform_id )
 
   base_uri MAD_MIMI_API
 
@@ -51,13 +51,29 @@ class MadMimi
       end
     end
 
+    def fetch_webforms
+      new.tap do |instance|
+        instance.fetch_webforms
+      end
+    end
+
+    def webforms
+      result = fetch_webforms
+      if result.successful?
+        result.webforms
+      else
+        []
+      end
+    end
+
   end
 
-  attr_accessor :errors, :response
+  attr_accessor :errors, :response, :webforms
 
   def initialize
-    @success = true
-    @errors  = []
+    @success  = true
+    @errors   = []
+    @webforms = []
   end
 
   def successful?
@@ -96,7 +112,7 @@ class MadMimi
   end
 
   def deactivate_addon
-    return unless @success = valid?
+    return unless @success = validate
 
     validate_response do
       self.class.post(
@@ -110,10 +126,32 @@ class MadMimi
 
   def validate
     return @success = true if valid?
+    result = refresh_access_token
 
-    if refresh_access_token
+    if result
       self.class.access_token  = response["access_token"]
       self.class.refresh_token = response["refresh_token"]
+    end
+  end
+
+  def fetch_webforms
+    validate
+
+    validate_response do
+      response = self.class.get(
+        "/apiv2/signups",
+        body: {
+          access_token: self.class.access_token
+        }
+      )
+
+      if response.code == 200
+        @webforms = objectify(
+          response.parsed_response.try(:[], 'signups')
+        )
+      end
+
+      response
     end
   end
 
@@ -151,6 +189,14 @@ class MadMimi
       @success &&= response.code == 200
     rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH => e
       @success = handle_error(e)
+    end
+
+    def objectify(collection)
+      if collection.present?
+        collection.map{ |o| OpenStruct.new(o) }
+      else
+        []
+      end
     end
 
 end
