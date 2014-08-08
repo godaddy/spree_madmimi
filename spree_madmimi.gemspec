@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'httparty'
   s.add_dependency 'omniauth-oauth2'
-  s.add_dependency 'omniauth-madmimi', git: 'git://github.com/madmimi/omniauth-madmimi.git'
+  s.add_dependency 'omniauth-madmimi'
 
   s.add_development_dependency 'capybara', '~> 2.1'
   s.add_development_dependency 'coffee-rails'
