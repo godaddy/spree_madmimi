@@ -6,15 +6,20 @@ en:
           sessions:
             create:
               flash:
-                success: You Spree store was successfully connected to MadMimi!
-                error: "Oops! There was a problem connecting your Spree store to MadMimi: %{message}."
+                success: You Spree store was successfully connected to Mad Mimi!
+                error: "Oops! There was a problem connecting your Spree store to Mad Mimi: %{message}."
             failure:
               flash:
-                error: "Oops! There was a problem connecting your Spree store to MadMimi: %{message}."
+                error: "Oops! There was a problem connecting your Spree store to Mad Mimi: %{message}."
             destroy:
               flash:
-                success: You Spree store was successfully disconnected from MadMimi!
-                error: "Oops! There was a problem disconnecting your Spree store from MadMimi: %{message}."
+                success: You Spree store was successfully disconnected from Mad Mimi!
+                error: "Oops! There was a problem disconnecting your Spree store from Mad Mimi: %{message}."
+          mad_mimi:
+            update:
+              flash:
+                success: Mad Mimi's subscription form is now visible on your site!
+                notice: Mad Mimi's subscription form is not visible any more.
         view:
           mad_mimi:
             edit:
