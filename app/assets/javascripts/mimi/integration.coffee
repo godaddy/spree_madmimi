@@ -45,7 +45,7 @@ class Mimi.Integration
 
   createAccountRedirectUrl: ->
     l = window.document.location
-    "#{ l.protocol }://#{ l.hostname }#{ ':' + l.port if l.port && l.port != 80 }#{ Mimi.Routes.connectAccountPath }"
+    "#{ l.protocol }//#{ l.hostname }#{ if l.port then ':' + l.port else '' }#{ Mimi.Routes.connectAccountPath }"
 
 Mimi.Integration.DOM =
   buttons:
