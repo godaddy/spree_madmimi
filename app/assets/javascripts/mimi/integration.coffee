@@ -15,11 +15,11 @@ class Mimi.Integration
 
   onConnectAccountClicked: (e) ->
     e.preventDefault()
-    @openWindow(Mimi.Routes.connectAccountUrl)
+    @openWindow(Mimi.Routes.connectAccountPath)
 
   onCreateAccountClicked: (e) ->
     e.preventDefault()
-    @openWindow(Mimi.Routes.createAccountUrl)
+    @openWindow(Mimi.Routes.createAccountUrl.replace('%{redirect_url}', @createAccountRedirectUrl()))
 
   onDisconnectAccountClicked: (e) ->
     e.preventDefault()
@@ -42,6 +42,10 @@ class Mimi.Integration
       'newWindow',
       'width=750,height=750,top=50,left=200'
     )
+
+  createAccountRedirectUrl: ->
+    l = window.document.location
+    "#{ l.protocol }://#{ l.hostname }#{ ':' + l.port if l.port && l.port != 80 }#{ Mimi.Routes.connectAccountPath }"
 
 Mimi.Integration.DOM =
   buttons:
