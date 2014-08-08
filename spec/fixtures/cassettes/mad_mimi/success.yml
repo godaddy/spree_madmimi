@@ -112,7 +112,7 @@ http_interactions:
       Connection:
       - Keep-Alive
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ! '{"access_token":"33a5253abc24e6359072bc245f7682a4ada6629b6f893a4df379808d20bf60bd","token_type":"bearer","expires_in":7200,"refresh_token":"d479bb6fd732ac29cec4fd145e3ae6cfa77b262856da07595b5674704485821b","scope":"public
         write"}'
     http_version: 
@@ -157,4 +157,49 @@ http_interactions:
       string: ! '{"success":true}'
     http_version: 
   recorded_at: Wed, 06 Aug 2014 09:34:42 GMT
+- request:
+    method: get
+    uri: http://localhost:3000/apiv2/signups
+    body:
+      encoding: US-ASCII
+      string: access_token=06bb865a824db38333673a607c50e0ed14e8796e4e1dc5d5d3cd312c481fe316
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: ! 'OK '
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Ua-Compatible:
+      - IE=Edge
+      Etag:
+      - ! '"9cbeafac8925b4f90c2a0c7cb2d1b684"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - db449fdbdb1f41da3a72346008da148b
+      X-Runtime:
+      - '2.097704'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.1.1/2014-02-24)
+      Date:
+      - Fri, 08 Aug 2014 08:24:03 GMT
+      Content-Length:
+      - '693'
+      Connection:
+      - Keep-Alive
+      Set-Cookie:
+      - chrome_token=; domain=madmimi.com; path=/; expires=Thu, 01-Jan-1970 00:00:00
+        GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"total":2,"signups":[{"id":29,"name":"Web Form 1","thumbnail":"/assets/default_signup_thumbnail.png","url":"http://localhost:3000/signups/29/join","side_tab_embed_code":"\u003Ca
+        id=\"webform_side_tab\"\u003ESubscribe\u003C/a\u003E\u003Cscript type=\"text/javascript\"
+        src=\"http://localhost:3000/signups/29/webform_side_tab.js\"\u003E\u003C/script\u003E"},{"id":30,"name":"Web
+        Form 2","thumbnail":"/assets/default_signup_thumbnail.png","url":"http://localhost:3000/signups/30/join","side_tab_embed_code":"\u003Ca
+        id=\"webform_side_tab\"\u003ESubscribe\u003C/a\u003E\u003Cscript type=\"text/javascript\"
+        src=\"http://localhost:3000/signups/30/webform_side_tab.js\"\u003E\u003C/script\u003E"}]}'
+    http_version: 
+  recorded_at: Fri, 08 Aug 2014 08:24:03 GMT
 recorded_with: VCR 2.5.0
