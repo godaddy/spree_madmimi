@@ -6,7 +6,7 @@ Spree::BaseHelper.module_eval do
       webforms = MadMimi.webforms
       if webforms.present?
         webform = id.present? ? webforms.find{ |f| f.id == id } : webforms.first
-        webform.try(:side_tab_embed_code).html_safe
+        webform.try{ |wf| wf.side_tab_embed_code.html_safe }
       end
     end
   end
