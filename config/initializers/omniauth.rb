@@ -10,6 +10,6 @@ OmniAuth::Strategies::Madmimi.option(
 
 OmniAuth::Strategies::Madmimi.option(
   :client_options,
-  site: MAD_MIMI_URL) if Rails.env.development?
+  site: MAD_MIMI_URL)
 
 OmniAuth.config.failure_raise_out_environments = []
