@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'spree_core', '~> 2.3.1'
 
+  s.add_dependency 'factory_girl_rails'
+  s.add_dependency 'mad_cart'
   s.add_dependency 'httparty'
   s.add_dependency 'omniauth-oauth2'
   s.add_dependency 'omniauth-madmimi'
