@@ -148,18 +148,20 @@ class MadMimi
     validate
 
     validate_response do
-      self.class.get(
+      response = self.class.get(
         "/apiv2/signups",
         body: {
           access_token: self.class.access_token
         }
-      ).tap do |response|
-        if response.code == 200
-          @webforms = objectify(
-            response.parsed_response.try(:[], 'signups')
-          )
-        end
+      )
+
+      if response.code == 200
+        @webforms = objectify(
+          response.parsed_response.try(:[], 'signups')
+        )
       end
+
+      response
     end
   end
 
@@ -167,14 +169,20 @@ class MadMimi
     validate
 
     validate_response do
-      self.class.get(
+      response = self.class.get(
         "/apiv2/signups/#{ id }",
         body: {
           access_token: self.class.access_token
         }
-      ).tap do |response|
-        @webform = objectify(response.parsed_response) if response.code == 200
+      )
+
+      if response.code == 200
+        @webform = objectify(
+          response.parsed_response
+        )
       end
+
+      response
     end
   end
 
