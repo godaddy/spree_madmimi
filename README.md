@@ -20,21 +20,23 @@ bundle
 bundle exec rails g spree_madmimi:install
 ```
 
-Go to Mad Mimi website and create your OAuth application:
-* Visit [OAuth applications](http://madmimi.com/oauth/applications) page.
+Get your Application ID and Secret from Mad Mimi:
+* Visit [Mad Mimi applications](http://madmimi.com/oauth/applications).
 * Click "New Application" button.
-* Use any name you want, e.g. "Spree Store".
-* And "/auth/madmimi/callback" path on your domain as redirect uri, e.g. "http://example.com/auth/madmimi/callback".
+* For name use any string, e.g. "Spree Store".
+* For redirect uri use your domain plus "/auth/madmimi/callback", e.g. "http://example.com/auth/madmimi/callback".
 
-Add `initializers/mad_mimi.rb` file with contents:
+Add madmimi configuration to `config/application.rb` file:
 
 ```ruby
-Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :madmimi, '...your MadMimi Application ID...', '...your MadMimi Secret...'
-end
+config.madmimi = {
+  client_id:     '...your MadMimi Application ID...',
+  client_secret: '...your MadMimi Secret...'
+}
 ```
 
 Replace Application ID and Secret placeholders with data that you got on the Mad Mimi website.
+
 
 Configuration
 -------------
