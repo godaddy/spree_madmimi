@@ -137,9 +137,8 @@ class MadMimi
 
   def validate
     return @success = true if valid?
-    result = refresh_access_token
 
-    if result
+    if refresh_access_token
       self.class.access_token  = response["access_token"]
       self.class.refresh_token = response["refresh_token"]
     end
@@ -149,20 +148,18 @@ class MadMimi
     validate
 
     validate_response do
-      response = self.class.get(
+      self.class.get(
         "/apiv2/signups",
         body: {
           access_token: self.class.access_token
         }
-      )
-
-      if response.code == 200
-        @webforms = objectify(
-          response.parsed_response.try(:[], 'signups')
-        )
+      ).tap do |response|
+        if response.code == 200
+          @webforms = objectify(
+            response.parsed_response.try(:[], 'signups')
+          )
+        end
       end
-
-      response
     end
   end
 
@@ -170,18 +167,14 @@ class MadMimi
     validate
 
     validate_response do
-      response = self.class.get(
+      self.class.get(
         "/apiv2/signups/#{ id }",
         body: {
           access_token: self.class.access_token
         }
-      )
-
-      if response.code == 200
-        @webform = objectify(response.parsed_response)
+      ).tap do |response|
+        @webform = objectify(response.parsed_response) if response.code == 200
       end
-
-      response
     end
   end
 
@@ -223,11 +216,7 @@ class MadMimi
 
     def objectify(hash_or_collection)
       if hash_or_collection.is_a?(Array)
-        if hash_or_collection.present?
-          hash_or_collection.map{ |o| objectify(o) }
-        else
-          []
-        end
+        hash_or_collection.map{ |o| objectify(o) }
       elsif hash_or_collection.is_a?(Hash)
         OpenStruct.new(hash_or_collection)
       end
