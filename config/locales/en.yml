@@ -30,6 +30,10 @@ en:
               not_connected:
                 title: Integrate Mad Mimi with your Spree Store!
                 description_html: Mad Mimi's Spree integration allows you to easily import your product listings and buyer email addresses for a super efficient email integration.<br /><br /><a href="" class="connect_account">Authorize your Mad Mimi account</a> now. If you don't have one, <a href="" class="create_account">create one</a>.
+              subscription_form:
+                title: Subscription form
+                prompt: Don't show form
+                hint: If webform is selected, a tab on the left side of your website will appear. Users can subscribe to your list by clicking on it.
               actions:
                 connect_account: Connect account
                 create_account: Create new account
