@@ -3,7 +3,7 @@ class MadMimi
 
   ATTRIBUTES = %w( access_token refresh_token webform_id )
 
-  base_uri MAD_MIMI_API
+  base_uri MAD_MIMI_URL
 
   class << self
 
@@ -19,6 +19,10 @@ class MadMimi
       define_method "#{ attribute }=" do |value|
         ::Spree::MadMimi::Config[attribute.to_sym] = value
       end
+    end
+
+    def webform_visible?
+      !self.webform_id.zero?
     end
 
     def connect(user, options={})
@@ -59,16 +63,23 @@ class MadMimi
 
     def webforms
       result = fetch_webforms
-      if result.successful?
-        result.webforms
-      else
-        []
+      result.webforms
+    end
+
+    def fetch_webform(id = nil)
+      new.tap do |instance|
+        instance.fetch_webform(id || webform_id)
       end
+    end
+
+    def webform(id = nil)
+      result = fetch_webform(id)
+      result.webform
     end
 
   end
 
-  attr_accessor :errors, :response, :webforms
+  attr_accessor :errors, :response, :webforms, :webform
 
   def initialize
     @success  = true
@@ -155,6 +166,25 @@ class MadMimi
     end
   end
 
+  def fetch_webform(id)
+    validate
+
+    validate_response do
+      response = self.class.get(
+        "/apiv2/signups/#{ id }",
+        body: {
+          access_token: self.class.access_token
+        }
+      )
+
+      if response.code == 200
+        @webform = objectify(response.parsed_response)
+      end
+
+      response
+    end
+  end
+
   private
 
     def refresh_access_token
@@ -191,11 +221,15 @@ class MadMimi
       @success = handle_error(e)
     end
 
-    def objectify(collection)
-      if collection.present?
-        collection.map{ |o| OpenStruct.new(o) }
-      else
-        []
+    def objectify(hash_or_collection)
+      if hash_or_collection.is_a?(Array)
+        if hash_or_collection.present?
+          hash_or_collection.map{ |o| objectify(o) }
+        else
+          []
+        end
+      elsif hash_or_collection.is_a?(Hash)
+        OpenStruct.new(hash_or_collection)
       end
     end
 

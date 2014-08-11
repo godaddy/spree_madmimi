@@ -1,13 +1,8 @@
 Spree::BaseHelper.module_eval do
 
-  def mad_mimi_webform(id=nil)
+  def mad_mimi_webform(id = nil)
     if MadMimi.connected?
-      id ||= MadMimi.webform_id
-      webforms = MadMimi.webforms
-      if webforms.present?
-        webform = id.present? ? webforms.find{ |f| f.id == id } : webforms.first
-        webform.try{ |wf| wf.side_tab_embed_code.html_safe }
-      end
+      MadMimi.webform(id).try{ |wf| wf.side_tab_embed_code.html_safe }
     end
   end
 
