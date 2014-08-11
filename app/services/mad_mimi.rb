@@ -21,6 +21,14 @@ class MadMimi
       end
     end
 
+    def client_id
+      Rails.application.config.madmimi[:client_id] if Rails.application.config.respond_to?(:madmimi)
+    end
+
+    def client_secret
+      Rails.application.config.madmimi[:client_secret] if Rails.application.config.respond_to?(:madmimi)
+    end
+
     def webform_visible?
       !self.webform_id.zero?
     end
@@ -193,8 +201,8 @@ class MadMimi
         self.class.post(
           "/oauth/token",
           body: {
-            client_id:     MAD_MIMI_ID,
-            client_secret: MAD_MIMI_SECRET,
+            client_id:     self.class.client_id,
+            client_secret: self.class.client_secret,
             refresh_token: self.class.refresh_token,
             grant_type:    "refresh_token"
           }

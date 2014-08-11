@@ -1,3 +1,9 @@
+if MadMimi.client_id.present? && MadMimi.client_secret.present?
+  Rails.application.config.middleware.use OmniAuth::Builder do
+    provider :madmimi, MadMimi.client_id, MadMimi.client_secret
+  end
+end
+
 OmniAuth::Strategies::Madmimi.option(
   :authorize_params,
   layout: "compact",
