@@ -18,11 +18,11 @@ describe MadMimi do
     end
   end
 
-  let(:sample_access_token)  { '06bb865a824db38333673a607c50e0ed14e8796e4e1dc5d5d3cd312c481fe316' }
-  let(:sample_refresh_token) { 'd479bb6fd732ac29cec4fd145e3ae6cfa77b262856da07595b5674704485821b' }
+  let(:sample_access_token)  { 'fef30b33104f976f842d6c06da8c34afedd7c6089d872d41857a76d411b6266e' }
+  let(:sample_refresh_token) { '81cfd40cbfa3a246e84198892a6e0792d4393afaef7e035da54054f7f8e121cd' }
   let(:sample_api_key)       { 'fa7521dbbdbe80a3107ab96890b1485a968e2b736e316ac8' }
   let(:sample_store_url)     { 'http://localhost:4000' }
-  let(:sample_webform_id)    { 1 }
+  let(:sample_webform_id)    { 29 }
 
   let(:sample_connect_params) do
     {
@@ -52,6 +52,10 @@ describe MadMimi do
 
   let(:sample_fetch_webforms_params) do
     sample_deactivate_addon_params
+  end
+
+  let(:sample_fetch_webform_params) do
+    sample_fetch_webforms_params
   end
 
   let!(:user) { create(:admin_user, spree_api_key: sample_api_key) }
@@ -104,6 +108,18 @@ describe MadMimi do
           .to change{ ::Spree::MadMimi::Config[:webform_id] }
             .from(0)
             .to(sample_webform_id)
+      end
+    end
+
+    context '.webform_visible?' do
+      it "returns true if .webform_id is not zero" do
+        subject.webform_id = 3
+        subject.webform_visible?.should be_truthy
+      end
+
+      it "returns false if .webform_id is zero" do
+        subject.webform_id = 0
+        subject.webform_visible?.should be_falsy
       end
     end
 
@@ -228,6 +244,50 @@ describe MadMimi do
 
       it "should not be empty" do
         subject.webforms.should be_present
+      end
+    end
+
+    context '.fetch_webform' do
+      before(:each) do
+        MadMimi.access_token  = sample_access_token
+        MadMimi.refresh_token = sample_refresh_token
+      end
+
+      it "should be successful" do
+        result = subject.fetch_webform(sample_webform_id)
+        result.should be_successful
+      end
+
+      it "makes a get request to MadMimi API" do
+        MadMimi.any_instance.stub(:valid? => true)
+        MadMimi.should_receive(:get).with(
+          "/apiv2/signups/#{ sample_webform_id }", sample_fetch_webform_params
+        ).and_call_original
+
+        subject.fetch_webform(sample_webform_id)
+      end
+
+      it "populates webforms attribute" do
+        subject.fetch_webform(sample_webform_id).tap do |result|
+          result.webform.should be_present
+        end
+      end
+    end
+
+    context '.webform' do
+      before(:each) do
+        MadMimi.access_token  = sample_access_token
+        MadMimi.refresh_token = sample_refresh_token
+      end
+
+      it "should not be empty" do
+        subject.webform(sample_webform_id).should be_present
+      end
+
+      it "should use webform_id from config if nothing specified" do
+        MadMimi.webform_id = sample_webform_id
+        subject.webform.should be_present
+        subject.webform[:id].should eq(sample_webform_id)
       end
     end
 
@@ -364,6 +424,24 @@ describe MadMimi do
     context '.webforms' do
       it "should be empty" do
         subject.webforms.should be_blank
+      end
+    end
+
+    context '.fetch_webform' do
+      it "should not be successful" do
+        subject.fetch_webform(sample_webform_id).should_not be_successful
+      end
+
+      it "holds an error message" do
+        subject.fetch_webform(sample_webform_id).tap do |result|
+          result.errors.should_not be_empty
+        end
+      end
+    end
+
+    context '.webform' do
+      it "should be empty" do
+        subject.webform(sample_webform_id).should be_blank
       end
     end
 
