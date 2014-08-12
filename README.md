@@ -10,6 +10,7 @@ Add spree_madmimi to your Gemfile:
 
 ```ruby
 gem 'spree_madmimi'
+gem 'omniauth-madmimi', github: 'madmimi/omniauth-madmimi'
 ```
 
 Bundle your dependencies and run the installation generator:
@@ -18,6 +19,24 @@ Bundle your dependencies and run the installation generator:
 bundle
 bundle exec rails g spree_madmimi:install
 ```
+
+Get your Application ID and Secret from Mad Mimi:
+* Visit [Mad Mimi applications](http://madmimi.com/oauth/applications).
+* Click "New Application" button.
+* For name use any string, e.g. "Spree Store".
+* For redirect uri use your domain plus "/auth/madmimi/callback", e.g. "http://example.com/auth/madmimi/callback".
+
+Add madmimi configuration to `config/application.rb` file:
+
+```ruby
+config.madmimi = {
+  client_id:     '...your MadMimi Application ID...',
+  client_secret: '...your MadMimi Secret...'
+}
+```
+
+Replace Application ID and Secret placeholders with data that you got on the Mad Mimi website.
+
 
 Configuration
 -------------
@@ -43,4 +62,4 @@ Simply add this require statement to your spec_helper:
 require 'spree_madmimi/factories'
 ```
 
-Copyright (c) 2014 [name of extension creator], released under the New BSD License
+Copyright (c) 2014 Mad Mimi, released under the New BSD License
