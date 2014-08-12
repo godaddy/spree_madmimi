@@ -34,9 +34,9 @@ describe Spree::Admin::MadMimiController do
 
     it "updates config file" do
       MadMimi.stub(:connected? => true)
-      expect { put :update, webform_id: 1 }
+      expect { put :update, webform_id: 123 }
         .to change{ ::Spree::MadMimi::Config[:webform_id] }
-          .to(1)
+          .to(123)
     end
   end
 
