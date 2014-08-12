@@ -6,25 +6,34 @@ en:
           sessions:
             create:
               flash:
-                success: You Spree store was successfully connected to MadMimi!
-                error: "Oops! There was a problem connecting your Spree store to MadMimi: %{message}."
+                success: You Spree store was successfully connected to Mad Mimi!
+                error: "Oops! There was a problem connecting your Spree store to Mad Mimi: %{message}."
             failure:
               flash:
-                error: "Oops! There was a problem connecting your Spree store to MadMimi: %{message}."
+                error: "Oops! There was a problem connecting your Spree store to Mad Mimi: %{message}."
             destroy:
               flash:
-                success: You Spree store was successfully disconnected from MadMimi!
-                error: "Oops! There was a problem disconnecting your Spree store from MadMimi: %{message}."
+                success: You Spree store was successfully disconnected from Mad Mimi!
+                error: "Oops! There was a problem disconnecting your Spree store from Mad Mimi: %{message}."
+          mad_mimi:
+            update:
+              flash:
+                success: Mad Mimi's subscription form is now visible on your site!
+                notice: Mad Mimi's subscription form is not visible any more.
         view:
           mad_mimi:
             edit:
               title: Mad Mimi
               connected:
                 title: Your Spree store is connected!
-                description_html: Your Spree store is already connected with your Mad Mimi account.<br />See how it works <a href="http://madmimi.com" target="_blank">here</a>.
+                description_html: Your Spree store is already connected with your Mad Mimi account.<br /><br />See how it works <a href="http://madmimi.com" target="_blank">here</a>.
               not_connected:
                 title: Integrate Mad Mimi with your Spree Store!
-                description_html: Mad Mimi's Spree integration allows you to easily import your product listings and buyer email addresses for a super efficient email integration.<br /><a href="" class="connect_account">Authorize your Mad Mimi account</a> now. If you don't have one, <a href="" class="create_account">create one</a>.
+                description_html: Mad Mimi's Spree integration allows you to easily import your product listings and buyer email addresses for a super efficient email integration.<br /><br /><a href="" class="connect_account">Authorize your Mad Mimi account</a> now. If you don't have one, <a href="" class="create_account">create one</a>.
+              subscription_form:
+                title: Subscription form
+                prompt: Don't show form
+                hint: If webform is selected, a tab on the left side of your website will appear. Users can subscribe to your list by clicking on it.
               actions:
                 connect_account: Connect account
                 create_account: Create new account

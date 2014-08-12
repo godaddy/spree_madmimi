@@ -8,39 +8,64 @@
   <%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.title') %>
 <% end %>
 
+
 <%= form_tag admin_mad_mimi_path, :method => :put do %>
-  <div id="preferences">
-    <fieldset class="general no-border-top">
+  <div id="mad_mimi">
+    <% if MadMimi.connected? %>
+      <div class="alpha six columns">
+        <fieldset class="general">
+          <legend align="center"><%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.connected.title') %></legend>
 
-      <% if MadMimi.connected? %>
-        <div class="alpha no-objects-found">
-          <h2><%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.connected.title') %></h2>
-          <br/>
-          <%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.connected.description_html') %>
-        </div>
-      <% else %>
-        <div class="alpha no-objects-found">
-          <h2><%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.not_connected.title') %></h2>
-          <br/>
-          <%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.not_connected.description_html') %>
-        </div>
-      <% end %>
+          <div class="alpha omega five columns offset-by-one">
+            <div class="alpha no-objects-found limited-height">
+              <%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.connected.description_html') %>
+            </div>
+          </div>
 
-      <div class="form-buttons filter-actions actions" data-hook="buttons">
-        <% if !MadMimi.connected? %>
-          <%= button Spree.t('mad_mimi.admin.view.mad_mimi.edit.actions.connect_account'), nil, nil, id: 'connect_account' %>
-          <span class="or"><%= Spree.t(:or) %></span>
-          <%= button Spree.t('mad_mimi.admin.view.mad_mimi.edit.actions.create_account'), nil, nil, id: 'create_account' %>
-        <% else %>
-          <%= button Spree.t('mad_mimi.admin.view.mad_mimi.edit.actions.disconnect_account'), nil, nil, id: 'disconnect_account' %>
-        <% end %>
+          <div class="form-buttons filter-actions actions" data-hook="buttons">
+            <%= button Spree.t('mad_mimi.admin.view.mad_mimi.edit.actions.disconnect_account'), 'cancel', nil, id: 'disconnect_account' %>
+          </div>
+        </fieldset>
       </div>
-    </fieldset>
+
+      <div class="omega six columns">
+        <fieldset class="general">
+          <legend align="center"><%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.subscription_form.title') %></legend>
+
+          <div class="alpha omega five columns offset-by-one limited-height">
+            <div class="field limited-height">
+              <%= select_tag :webform_id, options_for_select(MadMimi.webforms.map{ |wf| [ wf.name, wf.id ] }, MadMimi.webform_id), :prompt => Spree.t('mad_mimi.admin.view.mad_mimi.edit.subscription_form.prompt'), :class => 'select2 fullwidth' %>
+              <span class="info"><%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.subscription_form.hint') %></span>
+            </div>
+          </div>
+
+          <div class="form-buttons filter-actions actions" data-hook="buttons">
+            <%= button Spree.t('mad_mimi.admin.view.mad_mimi.edit.actions.update_configuration'), 'ok', 'submit' %>
+          </div>
+        </fieldset>
+      </div>
+    <% else %>
+      <div class="alpha twelve columns">
+        <fieldset class="general">
+          <legend align="center"><%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.not_connected.title') %></legend>
+
+          <div class="alpha no-objects-found">
+            <%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.not_connected.description_html') %>
+          </div>
+
+          <div class="form-buttons filter-actions actions" data-hook="buttons">
+            <%= button Spree.t('mad_mimi.admin.view.mad_mimi.edit.actions.connect_account'), nil, nil, id: 'connect_account' %>
+            <span class="or"><%= Spree.t(:or) %></span>
+            <%= button Spree.t('mad_mimi.admin.view.mad_mimi.edit.actions.create_account'), nil, nil, id: 'create_account' %>
+          </div>
+        </fieldset>
+      </div>
+    <% end %>
   </div>
 <% end %>
 
 <% content_for :scripts do %>
   <script>
-    new Mimi.Integration($('#preferences'));
+    new Mimi.Integration($('#mad_mimi'));
   </script>
 <% end %>

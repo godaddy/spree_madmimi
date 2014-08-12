@@ -1,9 +1,9 @@
 class MadMimi
   include HTTParty
 
-  ATTRIBUTES = %w( access_token refresh_token )
+  ATTRIBUTES = %w( access_token refresh_token webform_id )
 
-  base_uri MAD_MIMI_API
+  base_uri MAD_MIMI_URL
 
   class << self
 
@@ -19,6 +19,18 @@ class MadMimi
       define_method "#{ attribute }=" do |value|
         ::Spree::MadMimi::Config[attribute.to_sym] = value
       end
+    end
+
+    def client_id
+      Rails.application.config.madmimi[:client_id] if Rails.application.config.respond_to?(:madmimi)
+    end
+
+    def client_secret
+      Rails.application.config.madmimi[:client_secret] if Rails.application.config.respond_to?(:madmimi)
+    end
+
+    def webform_visible?
+      !self.webform_id.zero?
     end
 
     def connect(user, options={})
@@ -51,13 +63,36 @@ class MadMimi
       end
     end
 
+    def fetch_webforms
+      new.tap do |instance|
+        instance.fetch_webforms
+      end
+    end
+
+    def webforms
+      result = fetch_webforms
+      result.webforms
+    end
+
+    def fetch_webform(id = nil)
+      new.tap do |instance|
+        instance.fetch_webform(id || webform_id)
+      end
+    end
+
+    def webform(id = nil)
+      result = fetch_webform(id)
+      result.webform
+    end
+
   end
 
-  attr_accessor :errors, :response
+  attr_accessor :errors, :response, :webforms, :webform
 
   def initialize
-    @success = true
-    @errors  = []
+    @success  = true
+    @errors   = []
+    @webforms = []
   end
 
   def successful?
@@ -96,7 +131,7 @@ class MadMimi
   end
 
   def deactivate_addon
-    return unless @success = valid?
+    return unless @success = validate
 
     validate_response do
       self.class.post(
@@ -117,6 +152,48 @@ class MadMimi
     end
   end
 
+  def fetch_webforms
+    validate
+
+    validate_response do
+      response = self.class.get(
+        "/apiv2/signups",
+        body: {
+          access_token: self.class.access_token
+        }
+      )
+
+      if response.code == 200
+        @webforms = objectify(
+          response.parsed_response.try(:[], 'signups')
+        )
+      end
+
+      response
+    end
+  end
+
+  def fetch_webform(id)
+    validate
+
+    validate_response do
+      response = self.class.get(
+        "/apiv2/signups/#{ id }",
+        body: {
+          access_token: self.class.access_token
+        }
+      )
+
+      if response.code == 200
+        @webform = objectify(
+          response.parsed_response
+        )
+      end
+
+      response
+    end
+  end
+
   private
 
     def refresh_access_token
@@ -124,8 +201,8 @@ class MadMimi
         self.class.post(
           "/oauth/token",
           body: {
-            client_id:     MAD_MIMI_ID,
-            client_secret: MAD_MIMI_SECRET,
+            client_id:     self.class.client_id,
+            client_secret: self.class.client_secret,
             refresh_token: self.class.refresh_token,
             grant_type:    "refresh_token"
           }
@@ -151,6 +228,14 @@ class MadMimi
       @success &&= response.code == 200
     rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH => e
       @success = handle_error(e)
+    end
+
+    def objectify(hash_or_collection)
+      if hash_or_collection.is_a?(Array)
+        hash_or_collection.map{ |o| objectify(o) }
+      elsif hash_or_collection.is_a?(Hash)
+        OpenStruct.new(hash_or_collection)
+      end
     end
 
 end
