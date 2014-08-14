@@ -287,7 +287,7 @@ describe MadMimi do
       it "should use webform_id from config if nothing specified" do
         MadMimi.webform_id = sample_webform_id
         subject.webform.should be_present
-        subject.webform[:id].should eq(sample_webform_id)
+        subject.webform.id.should eq(sample_webform_id)
       end
     end
 
