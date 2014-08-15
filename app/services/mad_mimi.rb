@@ -76,7 +76,7 @@ class MadMimi
 
     def fetch_webform(id = nil)
       new.tap do |instance|
-        instance.fetch_webform(id_or_default(id))
+        instance.fetch_webform(id_or_default(id)) if can_fetch_webform?(id)
       end
     end
 
@@ -89,6 +89,10 @@ class MadMimi
 
       def id_or_default(id)
         !id.nil? && id != :default ? id : webform_id
+      end
+
+      def can_fetch_webform?(id)
+        !id_or_default(id).zero?
       end
 
   end
