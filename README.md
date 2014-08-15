@@ -11,7 +11,7 @@ Installation
 Add spree_madmimi to your Gemfile:
 
 ```ruby
-gem 'spree_madmimi', github: 'godaddy/spree_madmimi', branch: 'spree-2-2-stable'
+gem 'spree_madmimi', github: 'godaddy/spree_madmimi'
 gem 'omniauth-madmimi', github: 'madmimi/omniauth-madmimi'
 ```
 
