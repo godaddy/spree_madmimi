@@ -21,4 +21,23 @@ describe Spree::Admin::MadMimiController do
     end
   end
 
+  context "PUT 'update'" do
+    it "is successful" do
+      put :update, webform_id: 1
+      response.should be_redirect
+    end
+
+    it "renders edit template" do
+      put :update, webform_id: 1
+      response.should redirect_to("/admin/mad_mimi/edit")
+    end
+
+    it "updates config file" do
+      MadMimi.stub(:connected? => true)
+      expect { put :update, webform_id: 123 }
+        .to change{ ::Spree::MadMimi::Config[:webform_id] }
+          .to(123)
+    end
+  end
+
 end

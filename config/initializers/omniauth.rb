@@ -1,5 +1,7 @@
-Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :madmimi, MAD_MIMI_ID, MAD_MIMI_SECRET
+if MadMimi.client_id.present? && MadMimi.client_secret.present?
+  Rails.application.config.middleware.use OmniAuth::Builder do
+    provider :madmimi, MadMimi.client_id, MadMimi.client_secret
+  end
 end
 
 OmniAuth::Strategies::Madmimi.option(
@@ -10,6 +12,6 @@ OmniAuth::Strategies::Madmimi.option(
 
 OmniAuth::Strategies::Madmimi.option(
   :client_options,
-  site: "http://localhost:3000") if Rails.env.development?
+  site: MAD_MIMI_URL)
 
 OmniAuth.config.failure_raise_out_environments = []

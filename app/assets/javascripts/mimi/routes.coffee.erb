@@ -1,4 +1,4 @@
 class Mimi.Routes
-  @connectAccountUrl    = <%= SPREE_AUTH_URL.to_json %>
-  @createAccountUrl     = <%= "#{MAD_MIMI_URL}/service_agreements/solo_signup?redirect_url=#{CGI::escape(SPREE_AUTH_URL)}".to_json %>
+  @connectAccountPath   = <%= SPREE_AUTH_PATH.to_json %>
+  @createAccountUrl     = <%= "#{MAD_MIMI_URL}/service_agreements/solo_signup?redirect_url=%{redirect_url}".to_json %>
   @disconnectAccountUrl = <%= disconnect_mad_mimi_path.to_json %>
