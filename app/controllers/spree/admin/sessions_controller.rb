@@ -31,7 +31,7 @@ class Spree::Admin::SessionsController < Spree::Admin::BaseController
     end
 
     def update_token_params
-      ::MadMimi.connect(current_spree_user, {
+      ::MadMimi.connect({
         access_token:  auth_hash.credentials.token,
         refresh_token: auth_hash.credentials.refresh_token,
         store_url:     store_url

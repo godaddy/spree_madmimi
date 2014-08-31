@@ -3,5 +3,6 @@ module Spree
     preference :access_token,  :string
     preference :refresh_token, :string
     preference :webform_id,    :integer
+    preference :api_user_id,   :integer
   end
 end

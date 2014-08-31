@@ -4,7 +4,7 @@ describe MadMimi do
   subject { MadMimi }
 
   before(:each) do
-    @originals = [:access_token, :refresh_token, :webform_id].inject({}) do |hash, attribute|
+    @originals = MadMimi::ATTRIBUTES.inject({}) do |hash, attribute|
       hash.tap do |h|
         h[attribute] = ::Spree::MadMimi::Config[attribute]
         ::Spree::MadMimi::Config[attribute] = ''
@@ -123,25 +123,80 @@ describe MadMimi do
       end
     end
 
+    context '.api_user_id' do
+      it "reads from config" do
+        ::Spree::MadMimi::Config[:api_user_id] = user.id
+        subject.api_user_id.should eq(user.id)
+      end
+    end
+
+    context '.api_user_id=' do
+      it "assigns to config" do
+        expect { subject.api_user_id = user.id }
+          .to change{ ::Spree::MadMimi::Config[:api_user_id] }
+            .from(0)
+            .to(user.id)
+      end
+    end
+
+    context '.api_user' do
+      it "returns user if it exists" do
+        ::Spree::MadMimi::Config[:api_user_id] = user.id
+        subject.api_user.should eq(user)
+      end
+
+      it "returns nil if user does not exist" do
+        ::Spree::MadMimi::Config[:api_user_id] = 0
+        subject.api_user.should be_nil
+      end
+    end
+
+    context '.api_user_exists?' do
+      it "returns true if user exists" do
+        ::Spree::MadMimi::Config[:api_user_id] = user.id
+        subject.api_user_exists?.should be_truthy
+      end
+
+      it "returns nil if user does not exist" do
+        ::Spree::MadMimi::Config[:api_user_id] = 0
+        subject.api_user_exists?.should be_falsy
+      end
+    end
+
+    context '.api_user_or_admin' do
+      let(:api_user) { create(:admin_user) }
+
+      it "returns api_user if it exists" do
+        ::Spree::MadMimi::Config[:api_user_id] = api_user.id
+        subject.api_user_or_admin.should eq(api_user)
+        subject.api_user_or_admin.should_not eq(user)
+      end
+
+      it "returns admin if user does not exist" do
+        ::Spree::MadMimi::Config[:api_user_id] = 0
+        subject.api_user_or_admin.should eq(user)
+      end
+    end
+
     context '.connect' do
       it "should be successful" do
-        subject.connect(user, sample_connect_params).should be_successful
+        subject.connect(sample_connect_params).should be_successful
       end
 
       it "assigns config values" do
         MadMimi.access_token.should  be_empty
         MadMimi.refresh_token.should be_empty
 
-        subject.connect(user, sample_connect_params)
+        subject.connect(sample_connect_params)
 
         MadMimi.access_token.should  eq(sample_access_token)
         MadMimi.refresh_token.should eq(sample_refresh_token)
       end
 
       it "activates addon" do
-        MadMimi.any_instance.should_receive(:activate_addon).with(user, sample_store_url)
+        MadMimi.any_instance.should_receive(:activate_addon).with(sample_store_url)
 
-        subject.connect(user, sample_connect_params)
+        subject.connect(sample_connect_params)
       end
     end
 
@@ -174,17 +229,15 @@ describe MadMimi do
       end
 
       it "should be successful" do
-        subject.activate_addon(user, sample_store_url).should be_successful
+        subject.activate_addon(sample_store_url).should be_successful
       end
 
       it "makes a post request to MadMimi API" do
-        user.spree_api_key = sample_api_key
-
         MadMimi.should_receive(:post).with(
           "/spree/activate", sample_activate_addon_params
         ).and_call_original
 
-        subject.activate_addon(user, sample_store_url)
+        subject.activate_addon(sample_store_url)
       end
     end
 
@@ -363,11 +416,11 @@ describe MadMimi do
   shared_examples "failing MadMimi API calls" do
     context '.connect' do
       it "should not be successful" do
-        subject.connect(user, sample_connect_params).should_not be_successful
+        subject.connect(sample_connect_params).should_not be_successful
       end
 
       it "holds an error message" do
-        subject.connect(user, sample_connect_params).tap do |result|
+        subject.connect(sample_connect_params).tap do |result|
           result.errors.should_not be_empty
         end
       end
@@ -387,11 +440,11 @@ describe MadMimi do
 
     context '.activate_addon' do
       it "should not be successful" do
-        subject.activate_addon(user, sample_store_url).should_not be_successful
+        subject.activate_addon(sample_store_url).should_not be_successful
       end
 
       it "holds an error message" do
-        subject.activate_addon(user, sample_store_url).tap do |result|
+        subject.activate_addon(sample_store_url).tap do |result|
           result.errors.should_not be_empty
         end
       end

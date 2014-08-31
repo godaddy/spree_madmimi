@@ -47,7 +47,7 @@ describe Spree::Admin::SessionsController do
       include_examples "successful response"
 
       it "connects MadMimi" do
-        MadMimi.should_receive(:connect).with(user, params).and_call_original
+        MadMimi.should_receive(:connect).with(params).and_call_original
         get :create, { provider: :madmimi }
       end
 

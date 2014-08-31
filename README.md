@@ -73,6 +73,21 @@ If you need to embed webform into your store's design, use `mad_mimi_webform` he
 <%= mad_mimi_webform(123, :plain) %>
 ```
 
+Misc
+----
+
+Spree admin's API key is used for communication between your store and Mad Mimi.
+
+For security purposes, a special "Mad Mimi" admin user is created while installing `spree_madmimi` gem.
+
+If you are upgrading from an earlier version, or haven't created the user yet, please, use:
+
+```ruby
+bundle exec rake spree_madmimi:user:create
+```  
+
+If there is no "Mad Mimi" admin user, your default admin user will be used.
+
 Testing
 -------
 

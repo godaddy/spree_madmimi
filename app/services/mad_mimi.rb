@@ -1,7 +1,8 @@
 class MadMimi
   include HTTParty
 
-  ATTRIBUTES = %w( access_token refresh_token webform_id )
+  UPDATABLE_ATTRIBUTES = %w( access_token refresh_token webform_id )
+  ATTRIBUTES           = UPDATABLE_ATTRIBUTES + %w( api_user_id )
 
   base_uri MAD_MIMI_URL
 
@@ -21,6 +22,18 @@ class MadMimi
       end
     end
 
+    def api_user
+      api_user_id.try{ |id| Spree::User.find(id) rescue nil }
+    end
+
+    def api_user_exists?
+      api_user.present?
+    end
+
+    def api_user_or_admin
+      api_user || Spree::User.admin.first
+    end
+
     def client_id
       Rails.application.config.madmimi[:client_id] if Rails.application.config.respond_to?(:madmimi)
     end
@@ -33,9 +46,9 @@ class MadMimi
       !self.webform_id.zero?
     end
 
-    def connect(user, options={})
+    def connect(options={})
       new.tap do |instance|
-        instance.connect(user, options)
+        instance.connect(options)
       end
     end
 
@@ -45,9 +58,9 @@ class MadMimi
       end
     end
 
-    def activate_addon(user, store_url)
+    def activate_addon(store_url)
       new.tap do |instance|
-        instance.activate_addon(user, store_url)
+        instance.activate_addon(store_url)
       end
     end
 
@@ -109,23 +122,23 @@ class MadMimi
     @success
   end
 
-  def connect(user, options={})
-    ATTRIBUTES.each do |attribute|
+  def connect(options={})
+    UPDATABLE_ATTRIBUTES.each do |attribute|
       self.class.send("#{ attribute }=", options.delete(attribute.to_sym))
     end
 
-    @success = activate_addon(user, options.delete(:store_url))
+    @success = activate_addon(options.delete(:store_url))
   end
 
   def disconnect
     @success = deactivate_addon
 
-    ATTRIBUTES.each do |attribute|
+    UPDATABLE_ATTRIBUTES.each do |attribute|
       self.class.send("#{ attribute }=", nil)
     end
   end
 
-  def activate_addon(user, store_url)
+  def activate_addon(store_url)
     return unless @success = valid?
 
     validate_response do
@@ -133,7 +146,7 @@ class MadMimi
         "/spree/activate",
         body: {
           access_token: self.class.access_token,
-          api_key:      user.spree_api_key,
+          api_key:      self.class.api_user_or_admin.spree_api_key,
           store_url:    store_url
         }
       )

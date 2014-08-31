@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3000/oauth/token/info
+    uri: https://madmimi.com/oauth/token/info
     body:
       encoding: US-ASCII
       string: access_token=
@@ -10,7 +10,7 @@ http_interactions:
   response:
     status:
       code: 401
-      message: 'Unauthorized '
+      message: ! 'Unauthorized '
     headers:
       Cache-Control:
       - no-store
@@ -38,14 +38,14 @@ http_interactions:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"error":"invalid_request","error_description":"The request is missing
+      string: ! '{"error":"invalid_request","error_description":"The request is missing
         a required parameter, includes an unsupported parameter value, or is otherwise
         malformed."}'
-    http_version: 
+    http_version:
   recorded_at: Wed, 06 Aug 2014 07:05:02 GMT
 - request:
     method: post
-    uri: http://localhost:3000/oauth/token
+    uri: https://madmimi.com/oauth/token
     body:
       encoding: US-ASCII
       string: client_id=7a26d663816336ad187521bc216654ea9a3471047817d053c75cc82482e0da1c&client_secret=f54bea065741fb0f99c0a9909f3c3b70ce965618f39daadfb0f33b664de6f1fe&refresh_token=&grant_type=refresh_token
@@ -53,7 +53,7 @@ http_interactions:
   response:
     status:
       code: 401
-      message: 'Unauthorized '
+      message: ! 'Unauthorized '
     headers:
       Cache-Control:
       - no-store
@@ -81,14 +81,14 @@ http_interactions:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"error":"invalid_request","error_description":"The request is missing
+      string: ! '{"error":"invalid_request","error_description":"The request is missing
         a required parameter, includes an unsupported parameter value, or is otherwise
         malformed."}'
-    http_version: 
+    http_version:
   recorded_at: Wed, 06 Aug 2014 08:17:49 GMT
 - request:
     method: get
-    uri: http://localhost:3000/apiv2/signups
+    uri: https://madmimi.com/apiv2/signups
     body:
       encoding: US-ASCII
       string: access_token=
@@ -96,7 +96,7 @@ http_interactions:
   response:
     status:
       code: 500
-      message: 'Internal Server Error '
+      message: ! 'Internal Server Error '
     headers:
       Content-Type:
       - text/html; charset=utf-8
@@ -114,7 +114,7 @@ http_interactions:
       - Keep-Alive
     body:
       encoding: US-ASCII
-      string: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\"
+      string: ! "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\"
         />\n  <title>Action Controller: Exception caught</title>\n  <style>\n    body
         { background-color: #fff; color: #333; }\n\n    body, p, ol, ul, td {\n      font-family:
         helvetica, verdana, arial, sans-serif;\n      font-size:   13px;\n      line-height:
@@ -212,11 +212,11 @@ http_interactions:
         &quot;CGI/1.1&quot;\nREMOTE_ADDR: &quot;127.0.0.1&quot;\nREMOTE_HOST: &quot;localhost&quot;\nSERVER_NAME:
         &quot;localhost&quot;\nSERVER_PROTOCOL: &quot;HTTP/1.1&quot;</pre></div>\n\n\n<h2
         style=\"margin-top: 30px\">Response</h2>\n<p><b>Headers</b>: <pre>None</pre></p>\n\n\n\n</body>\n</html>\n"
-    http_version: 
+    http_version:
   recorded_at: Fri, 08 Aug 2014 08:05:00 GMT
 - request:
     method: get
-    uri: http://localhost:3000/apiv2/signups/29
+    uri: https://madmimi.com/apiv2/signups/29
     body:
       encoding: UTF-8
       string: access_token=
@@ -224,7 +224,7 @@ http_interactions:
   response:
     status:
       code: 500
-      message: 'Internal Server Error '
+      message: ! 'Internal Server Error '
     headers:
       Content-Type:
       - text/html; charset=utf-8
@@ -242,7 +242,7 @@ http_interactions:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\"
+      string: ! "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\"
         />\n  <title>Action Controller: Exception caught</title>\n  <style>\n    body
         { background-color: #fff; color: #333; }\n\n    body, p, ol, ul, td {\n      font-family:
         helvetica, verdana, arial, sans-serif;\n      font-size:   13px;\n      line-height:
@@ -340,6 +340,6 @@ http_interactions:
         &quot;CGI/1.1&quot;\nREMOTE_ADDR: &quot;127.0.0.1&quot;\nREMOTE_HOST: &quot;localhost&quot;\nSERVER_NAME:
         &quot;localhost&quot;\nSERVER_PROTOCOL: &quot;HTTP/1.1&quot;</pre></div>\n\n\n<h2
         style=\"margin-top: 30px\">Response</h2>\n<p><b>Headers</b>: <pre>None</pre></p>\n\n\n\n</body>\n</html>\n"
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Aug 2014 14:57:49 GMT
-recorded_with: VCR 2.5.0
+recorded_with: VCR 2.9.2
