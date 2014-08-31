@@ -7,6 +7,7 @@ describe Spree::Admin::MadMimiController do
 
   before(:each) do
     Spree::BaseController.any_instance.stub(:current_spree_user => user)
+    MadMimi.stub(:webforms => [])
   end
 
   context "GET 'edit'" do
