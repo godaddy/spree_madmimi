@@ -34,6 +34,7 @@ en:
                 title: Subscription form
                 prompt: Don't show form
                 hint: If webform is selected, a tab on the left side of your website will appear. Users can subscribe to your list by clicking on it.
+                empty_html: It looks like you have not created any Mad Mimi Web Form yet.<br /><br /><a href="https://madmimi.com/signups" target="_blank">Create</a> one now.
               actions:
                 connect_account: Connect account
                 create_account: Create new account

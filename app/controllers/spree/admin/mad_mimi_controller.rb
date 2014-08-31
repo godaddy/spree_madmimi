@@ -1,5 +1,7 @@
 class Spree::Admin::MadMimiController < Spree::Admin::BaseController
 
+  before_filter :grab_webforms
+
   def edit
   end
 
@@ -12,5 +14,11 @@ class Spree::Admin::MadMimiController < Spree::Admin::BaseController
     end
     redirect_to [:edit, :admin, :mad_mimi]
   end
+
+  private
+
+    def grab_webforms
+      @webforms = ::MadMimi.webforms
+    end
 
 end

@@ -32,16 +32,25 @@
         <fieldset class="general">
           <legend align="center"><%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.subscription_form.title') %></legend>
 
+
           <div class="alpha omega five columns offset-by-one limited-height">
-            <div class="field limited-height">
-              <%= select_tag :webform_id, options_for_select(MadMimi.webforms.map{ |wf| [ wf.name, wf.id ] }, MadMimi.webform_id), :prompt => Spree.t('mad_mimi.admin.view.mad_mimi.edit.subscription_form.prompt'), :class => 'select2 fullwidth' %>
-              <span class="info"><%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.subscription_form.hint') %></span>
-            </div>
+            <% if @webforms.empty? %>
+              <div class="alpha no-objects-found limited-height">
+                <%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.subscription_form.empty_html') %>
+              </div>
+            <% else %>
+              <div class="field limited-height">
+                <%= select_tag :webform_id, options_for_select(@webforms.map{ |wf| [ wf.name, wf.id ] }, MadMimi.webform_id), :prompt => Spree.t('mad_mimi.admin.view.mad_mimi.edit.subscription_form.prompt'), :class => 'select2 fullwidth' %>
+                <span class="info"><%= Spree.t('mad_mimi.admin.view.mad_mimi.edit.subscription_form.hint') %></span>
+              </div>
+            <% end %>
           </div>
 
-          <div class="form-buttons filter-actions actions" data-hook="buttons">
-            <%= button Spree.t('mad_mimi.admin.view.mad_mimi.edit.actions.update_configuration'), 'ok', 'submit' %>
-          </div>
+          <% unless @webforms.empty? %>
+            <div class="form-buttons filter-actions actions" data-hook="buttons">
+              <%= button Spree.t('mad_mimi.admin.view.mad_mimi.edit.actions.update_configuration'), 'ok', 'submit' %>
+            </div>
+          <% end %>
         </fieldset>
       </div>
     <% else %>
