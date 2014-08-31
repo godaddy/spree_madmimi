@@ -28,10 +28,11 @@ bundle exec rails g spree_madmimi:install
 
 Get your Application ID and Secret from Mad Mimi:
 
-1. Visit [Mad Mimi applications](http://madmimi.com/oauth/applications).
-2. Click "New Application" button.
-3. For `name` use any string *(e.g. Spree Store)*.
-4. For `redirect uri` use your domain plus `/auth/madmimi/callback` *(e.g. http://example.com/auth/madmimi/callback)*.
+1. [Login](https://madmimi.com/session/new) to your Mad Mimi account.
+2. Visit [Mad Mimi applications](http://madmimi.com/oauth/applications).
+3. Click "New Application" button.
+4. For `name` use any string *(e.g. Spree Store)*.
+5. For `redirect uri` use your domain plus `/auth/madmimi/callback` *(e.g. http://example.com/auth/madmimi/callback)*.
 
 **Configure Mad Mimi**
 
